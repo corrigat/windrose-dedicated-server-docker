@@ -11,7 +11,7 @@ ENV LC_ALL=en_US.UTF-8
 
 RUN dpkg --add-architecture i386 && \
     apt update
-RUN apt install -y
+RUN apt install -y \
     curl wget ca-certificates \
     xvfb xauth \
     winbind \
