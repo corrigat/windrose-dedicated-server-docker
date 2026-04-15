@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV USER=steam
@@ -9,12 +9,17 @@ ENV WINEDEBUG=-all
 ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 
+RUN mkdir -p /etc/apt/keyrings
+RUN wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key
+RUN wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/$(lsb_release -sc)/winehq-$(lsb_release -sc).sources
+RUN apt install --install-recommends winehq-stable
+
 RUN dpkg --add-architecture i386 && \
     apt update && \
     apt install -y \
       curl ca-certificates \
       xvfb xauth \
-      wine64 wine32 winbind \
+      winbind \
       lib32gcc-s1 lib32stdc++6 \
       libc6:i386 libstdc++6:i386 \
       libncurses5:i386 libtinfo5:i386 \
