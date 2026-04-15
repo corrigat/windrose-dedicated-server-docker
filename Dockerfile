@@ -12,23 +12,26 @@ ENV LC_ALL=en_US.UTF-8
 RUN echo "deb http://security.ubuntu.com/ubuntu focal-security main universe" > /etc/apt/sources.list.d/ubuntu-focal-sources.list
 
 RUN dpkg --add-architecture i386 && \
-    apt update
+  apt update
 RUN apt install -y \
-    curl wget ca-certificates \
-    xvfb xauth \
-    winbind \
-    lib32gcc-s1 lib32stdc++6 \
-    libc6:i386 libstdc++6:i386 \
-    libncurses5:i386 libtinfo5:i386 \
-    locales \
-    gpg
+  curl wget ca-certificates \
+  xvfb xauth \
+  winbind \
+  libsane1:i386 \
+  lib32gcc-s1 lib32stdc++6 \
+  libc6:i386 libstdc++6:i386 \
+  libncurses5:i386 libtinfo5:i386 \
+  locales gpg
 RUN rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /etc/apt/keyrings
 RUN wget -O - https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key
 RUN wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/noble/winehq-noble.sources
 RUN apt update
-RUN apt install --install-recommends winehq-stable
+RUN apt install --install-recommends \
+  libsane1:i386 \
+  wine-stable  
+  winehq-stable
 
 RUN sed -i 's/^# \(en_US.UTF-8 UTF-8\)/\1/' /etc/locale.gen && locale-gen
 
@@ -37,7 +40,7 @@ RUN mkdir -p /tmp/.X11-unix && chmod 1777 /tmp/.X11-unix
 RUN useradd -u 1000 -m -s /bin/bash steam
 
 RUN mkdir -p /opt/steamcmd && \
-    curl -sSL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz \
+  curl -sSL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz \
     | tar -xz -C /opt/steamcmd && \
   chown -R steam:steam /opt/steamcmd /home/steam
 
