@@ -9,6 +9,8 @@ ENV WINEDEBUG=-all
 ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 
+RUN echo "deb http://security.ubuntu.com/ubuntu focal-security main universe" > /etc/apt/sources.list.d/ubuntu-focal-sources.list
+
 RUN dpkg --add-architecture i386 && \
     apt update
 RUN apt install -y \
@@ -18,12 +20,13 @@ RUN apt install -y \
     lib32gcc-s1 lib32stdc++6 \
     libc6:i386 libstdc++6:i386 \
     libncurses5:i386 libtinfo5:i386 \
-    locales
+    locales \
+    gpg
 RUN rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /etc/apt/keyrings
 RUN wget -O - https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key
-RUN wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/$(lsb_release -sc)/winehq-$(lsb_release -sc).sources
+RUN wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/noble/winehq-noble.sources
 RUN apt install --install-recommends winehq-stable
 
 RUN sed -i 's/^# \(en_US.UTF-8 UTF-8\)/\1/' /etc/locale.gen && locale-gen
