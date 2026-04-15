@@ -9,18 +9,12 @@ ENV WINEDEBUG=-all
 ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 
-RUN echo "deb http://security.ubuntu.com/ubuntu focal-security main universe" > /etc/apt/sources.list.d/ubuntu-focal-sources.list
-
 RUN dpkg --add-architecture i386 && \
   apt update
 RUN apt install -y \
   curl wget ca-certificates \
   xvfb xauth \
   winbind \
-  libsane1:i386 \
-  lib32gcc-s1 lib32stdc++6 \
-  libc6:i386 libstdc++6:i386 \
-  libncurses5:i386 libtinfo5:i386 \
   locales gpg
 RUN rm -rf /var/lib/apt/lists/*
 
@@ -29,8 +23,6 @@ RUN wget -O - https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor -o /e
 RUN wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/noble/winehq-noble.sources
 RUN apt update
 RUN apt install --install-recommends \
-  libsane1:i386 \
-  wine-stable  
   winehq-stable
 
 RUN sed -i 's/^# \(en_US.UTF-8 UTF-8\)/\1/' /etc/locale.gen && locale-gen
