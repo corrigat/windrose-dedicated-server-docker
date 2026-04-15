@@ -18,7 +18,7 @@ RUN apt install -y
     lib32gcc-s1 lib32stdc++6 \
     libc6:i386 libstdc++6:i386 \
     libncurses5:i386 libtinfo5:i386 \
-    locales \
+    locales
 RUN rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /etc/apt/keyrings
