@@ -10,16 +10,16 @@ ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 
 RUN dpkg --add-architecture i386 && \
-    apt update && \
-    apt install -y \
-      curl wget ca-certificates \
-      xvfb xauth \
-      winbind \
-      lib32gcc-s1 lib32stdc++6 \
-      libc6:i386 libstdc++6:i386 \
-      libncurses5:i386 libtinfo5:i386 \
-      locales \
-    && rm -rf /var/lib/apt/lists/*
+    apt update
+RUN apt install -y
+    curl wget ca-certificates \
+    xvfb xauth \
+    winbind \
+    lib32gcc-s1 lib32stdc++6 \
+    libc6:i386 libstdc++6:i386 \
+    libncurses5:i386 libtinfo5:i386 \
+    locales \
+RUN rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /etc/apt/keyrings
 RUN wget -O - https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key
