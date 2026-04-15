@@ -22,7 +22,7 @@ RUN mkdir -p /etc/apt/keyrings
 RUN wget -O - https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key
 RUN wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/noble/winehq-noble.sources
 RUN apt update
-RUN apt install --install-recommends \
+RUN apt install -y --install-recommends \
   winehq-stable
 
 RUN sed -i 's/^# \(en_US.UTF-8 UTF-8\)/\1/' /etc/locale.gen && locale-gen
